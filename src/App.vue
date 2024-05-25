@@ -5,6 +5,6 @@
 </template>
 <style lang="scss">
 body{
-  margin: 0;
+  background-color: #EEE4E1;
 }
 </style>
