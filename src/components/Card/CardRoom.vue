@@ -1,4 +1,5 @@
 <script setup>
+import CardBasic from '@/components/Card/CardBasic.vue' // 基礎卡片樣式
 const props = defineProps({
   // 聊天室id
   id: {
@@ -13,9 +14,9 @@ const props = defineProps({
   // 聊天室
   introduce: {
     type: String,
-    default: '內容', // 限制最多15字
+    default: '內容', // 限制最多30字
     validator: (value) => {
-      return value.length <= 15
+      return value.length <= 30
     },
   },
 })
@@ -33,9 +34,7 @@ const joinRoom = (id) => {
 }
 </script>
 <template>
-  <div
-    class="card flex flex-col bg-secondary-200 rounded-1 aspect-ratio-video tracking-widest"
-  >
+  <CardBasic>
     <h2 class="text-primary-100 px-6">{{ props.title }}</h2>
     <div class="card__introduce text-primary-200 font-size-4 px-6">
       <!-- {{ props.introduce }} -->
@@ -49,10 +48,11 @@ const joinRoom = (id) => {
         加入
       </button>
     </div>
-  </div>
+  </CardBasic>
 </template>
 <style lang="scss" scoped>
 .card {
+  min-width: 200px;
   .card__introduce {
     overflow: hidden;
     text-overflow: ellipsis;

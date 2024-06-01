@@ -1,4 +1,9 @@
-<script setup></script>
+<script setup>
+import { inject } from 'vue'
+
+const goPage = inject('goPage')
+console.log(goPage)
+</script>
 <template>
   <header
     class="flex justify-between items-center bg-secondary-200 w-full px-10 py-4"
@@ -8,7 +13,7 @@
       <div>message</div>
       <div>userName</div>
       <div>setting</div>
-      <div>登入</div>
+      <div @click="goPage('Login')">登入</div>
       <div>註冊</div>
     </nav>
   </header>
