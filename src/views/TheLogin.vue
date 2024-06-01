@@ -1,24 +1,40 @@
 <script setup>
+import { reactive } from 'vue'
 // 登入頁
 import CardBasic from '@/components/Card/CardBasic.vue' // 基礎卡片樣式
+import BasicInput from '@/components/Form/BasicInput.vue' // 基礎輸入框樣式
+
+const form = reactive({
+  email: '', // 帳號(信箱)
+  password: '', // 密碼
+})
 </script>
 <template>
   <section
     class="login flex justify-center items-center px-4 py-8 md:px-8 md-py-16"
   >
-    <CardBasic class="w-full px-4 py-2">
+    <CardBasic class="w-full px-8 py-2">
       <h1 class="text-primary-200 text-center">登入</h1>
       <div>
-        <div>
-          <label for="">帳號</label>
+        <div class="mb-6">
+          <label
+            class="block font-size-6 font-bold text-primary-100 mb-2"
+            for=""
+            >帳號(email)</label
+          >
           <div>
-            <input type="text" />
+            <!-- <input type="text" /> -->
+            <BasicInput v-model="form.email" placeholder="example@gmail.com" />
           </div>
         </div>
         <div>
-          <label for="">密碼</label>
+          <label
+            class="block font-size-6 font-bold text-primary-100 mb-2"
+            for=""
+            >密碼</label
+          >
           <div>
-            <input type="password" />
+            <BasicInput v-model="form.password" type="password" />
           </div>
         </div>
       </div>
