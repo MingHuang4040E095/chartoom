@@ -24,6 +24,7 @@
     "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-vue": "^9.18.1",
     "sass": "^1.69.5",
+    "standard": "^17.1.0",
     "unocss": "^0.57.7",
     "vite": "^5.0.0"
   }

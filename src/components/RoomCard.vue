@@ -1,6 +1,4 @@
 <script setup>
-import { defineEmits, defineProps } from 'vue'
-
 const props = defineProps({
   // 聊天室id
   id: {
@@ -12,10 +10,13 @@ const props = defineProps({
     type: String,
     default: '標題',
   },
-  // 聊天室內容
-  content: {
+  // 聊天室
+  introduce: {
     type: String,
-    default: '內容',
+    default: '內容', // 限制最多15字
+    validator: (value) => {
+      return value.length <= 15
+    },
   },
 })
 
@@ -36,8 +37,9 @@ const joinRoom = (id) => {
     class="card flex flex-col bg-secondary-200 rounded-1 aspect-ratio-video tracking-widest"
   >
     <h2 class="text-primary-100 px-6">{{ props.title }}</h2>
-    <div class="text-primary-200 font-size-4 px-6">
-      {{ props.content }}
+    <div class="card__introduce text-primary-200 font-size-4 px-6">
+      <!-- {{ props.introduce }} -->
+      {{ props.introduce }}
     </div>
     <div class="text-right mt-auto px-6 py-4">
       <button
@@ -49,3 +51,15 @@ const joinRoom = (id) => {
     </div>
   </div>
 </template>
+<style lang="scss" scoped>
+.card {
+  .card__introduce {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    // flex-basis: 100%;
+    -webkit-box-orient: vertical;
+  }
+}
+</style>
