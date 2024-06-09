@@ -2,7 +2,7 @@
 import { reactive } from 'vue'
 // 登入頁
 import CardBasic from '@/components/Card/CardBasic.vue' // 基礎卡片樣式
-import BasicInput from '@/components/Form/BasicInput.vue' // 基礎輸入框樣式
+import InputBasic from '@/components/Form/InputBasic.vue' // 基礎輸入框樣式
 
 const form = reactive({
   email: '', // 帳號(信箱)
@@ -24,7 +24,7 @@ const form = reactive({
           >
           <div>
             <!-- <input type="text" /> -->
-            <BasicInput v-model="form.email" placeholder="example@gmail.com" />
+            <InputBasic v-model="form.email" placeholder="example@gmail.com" />
           </div>
         </div>
         <div>
@@ -34,7 +34,7 @@ const form = reactive({
             >密碼</label
           >
           <div>
-            <BasicInput v-model="form.password" type="password" />
+            <InputBasic v-model="form.password" type="password" />
           </div>
         </div>
       </div>
