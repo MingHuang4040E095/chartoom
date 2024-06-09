@@ -44,7 +44,7 @@ const handleBlur = async (e) => {
 }
 </script>
 <template>
-  <div class="basic-input relative">
+  <div class="input-basic relative">
     <input
       class="font-size-4 tracking-2px text-primary-100 w-full rounded-12 outline-none px-4 py-2 pr-8"
       border="2px solid primary-100"
@@ -61,10 +61,4 @@ const handleBlur = async (e) => {
     />
   </div>
 </template>
-<style lang="scss" scoped>
-.basic-input {
-  input:focus ~ svg {
-    // display: inline-block;
-  }
-}
-</style>
+<style lang="scss" scoped></style>
