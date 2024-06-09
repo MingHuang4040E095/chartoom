@@ -1,5 +1,7 @@
 <script setup>
+import ButtonBasic from '@/components/Button/ButtonBasic.vue' // 基礎按鈕樣式
 import CardBasic from '@/components/Card/CardBasic.vue' // 基礎卡片樣式
+
 const props = defineProps({
   // 聊天室id
   id: {
@@ -41,12 +43,7 @@ const joinRoom = (id) => {
       {{ props.introduce }}
     </div>
     <div class="text-right mt-auto px-6 py-4">
-      <button
-        class="text-white bg-primary-100 rounded-8 border-none px-4 py-2 tracking-widest cursor-pointer hover:bg-primary-200 transition-all duration-300 ease-in-out"
-        @click="joinRoom(props.id)"
-      >
-        加入
-      </button>
+      <ButtonBasic type="round" @click="joinRoom(props.id)">加入</ButtonBasic>
     </div>
   </CardBasic>
 </template>
