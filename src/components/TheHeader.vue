@@ -14,7 +14,7 @@ console.log(goPage)
       <div>userName</div>
       <div>setting</div>
       <div @click="goPage('Login')">登入</div>
-      <div>註冊</div>
+      <div @click="goPage('Register')">註冊</div>
     </nav>
   </header>
 </template>

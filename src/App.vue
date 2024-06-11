@@ -1,6 +1,6 @@
 <script setup>
 import TheHeader from '@/components/TheHeader.vue' // 主選單
-import { provide } from 'vue'
+import { computed, provide } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 const router = useRouter()
@@ -18,9 +18,16 @@ const goPage = (name, params = {}, query = {}) => {
   router.push({ name, params, query })
 }
 provide('goPage', goPage)
+
+// 是否顯示header
+const headerVisible = computed(() => {
+  // 要隱藏header的路由
+  const hiddenHeaderRoutes = ['Login', 'Register']
+  return !hiddenHeaderRoutes.includes(route.name)
+})
 </script>
 <template>
-  <TheHeader v-if="route.name !== 'Login'" />
+  <TheHeader v-if="headerVisible" />
   <body>
     <RouterView></RouterView>
   </body>
