@@ -41,6 +41,9 @@ const handleFocus = (e) => {
  */
 const handleBlur = async (e) => {
   emit('blur', e)
+  setTimeout(() => {
+    iconVisible.value = false // icon隱藏
+  }, 200)
 }
 </script>
 <template>
