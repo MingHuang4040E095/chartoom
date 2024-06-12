@@ -2,8 +2,9 @@
 import { reactive } from 'vue'
 // 登入頁
 import ButtonBasic from '@/components/Button/ButtonBasic.vue' // 基礎按鈕樣式
-import ButtonLink from '@/components/Button/ButtonLink.vue' // 連結按鈕樣式
 import CardBasic from '@/components/Card/CardBasic.vue' // 基礎卡片樣式
+import FormContainer from '@/components/Form/FormContainer.vue' // 表單容器
+import FormItem from '@/components/Form/FormItem.vue' // 表單欄位
 import InputBasic from '@/components/Form/InputBasic.vue' // 基礎輸入框樣式
 
 const form = reactive({
@@ -18,28 +19,39 @@ const form = reactive({
     <CardBasic class="w-full px-8 py-2">
       <h1 class="text-primary-200 text-center">登入</h1>
       <div>
-        <div class="form-item">
+        <FormContainer>
+          <FormItem filedName="email">
+            <InputBasic v-model="form.email" placeholder="" />
+          </FormItem>
+          <FormItem filedName="email">
+            <InputBasic v-model="form.password" placeholder="" />
+          </FormItem>
+        </FormContainer>
+        <!-- <div class="form-item">
           <label
             class="block font-size-6 font-bold text-primary-100 mb-2"
-            for=""
+            for="email"
             >帳號(email)</label
           >
           <div>
-            <!-- <input type="text" /> -->
-            <InputBasic v-model="form.email" placeholder="example@gmail.com" />
+            <InputBasic
+              v-model="form.email"
+              id="email"
+              placeholder="example@gmail.com"
+            />
           </div>
         </div>
         <div class="form-item">
           <label
             class="block font-size-6 font-bold text-primary-100 mb-2"
-            for=""
+            for="password"
             >密碼</label
           >
           <div class="mb-2">
-            <InputBasic v-model="form.password" type="password" />
+            <InputBasic v-model="form.password" id="password" type="password" />
           </div>
           <ButtonLink>忘記密碼?</ButtonLink>
-        </div>
+        </div> -->
         <div class="form-item text-right">
           <ButtonBasic class="font-bold" type="round">登入</ButtonBasic>
         </div>

@@ -1,5 +1,5 @@
 <script setup>
-import { defineEmits, defineModel, ref } from 'vue'
+import { defineEmits, defineModel, inject, ref } from 'vue'
 import IconCancel from '../Icon/IconCancel.vue'
 const props = defineProps({
   // 輸入框類型
@@ -44,6 +44,15 @@ const handleBlur = async (e) => {
   setTimeout(() => {
     iconVisible.value = false // icon隱藏
   }, 200)
+}
+
+// -------------- 表單驗證區塊 --------------
+const formItemFields = inject('formFields')
+const fieldKey = inject('fieldKey')
+if (formItemFields && fieldKey) {
+  console.log(formItemFields)
+  console.log(fieldKey)
+  formItemFields[fieldKey] = inputValue
 }
 </script>
 <template>
