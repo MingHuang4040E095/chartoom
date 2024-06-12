@@ -52,7 +52,7 @@ const fieldKey = inject('fieldKey')
 if (formItemFields && fieldKey) {
   console.log(formItemFields)
   console.log(fieldKey)
-  formItemFields[fieldKey] = inputValue
+  formItemFields[fieldKey] = inputValue // 當前欄位的值
 }
 </script>
 <template>
