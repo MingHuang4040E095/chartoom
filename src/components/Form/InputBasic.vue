@@ -73,4 +73,10 @@ if (formItemFields && fieldKey) {
     />
   </div>
 </template>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.form-item--error {
+  .input-basic > input {
+    @apply border-red;
+  }
+}
+</style>
