@@ -1,5 +1,5 @@
 <script setup>
-import { computed, defineProps, inject, provide, ref } from 'vue'
+import { computed, defineProps, inject, provide, reactive } from 'vue'
 
 const props = defineProps({
   // 欄位名稱
@@ -57,7 +57,11 @@ const setCurrentField = () => {
 }
 setCurrentField()
 
-const verifyResult = ref(true) // 驗證結果
+// 驗證結果
+const verifyResult = reactive({
+  status: true, // 驗證狀態 true:通過 false:失敗
+  errorMessage: '', // 錯誤訊息
+})
 
 /**
  * 驗證欄位
@@ -66,22 +70,30 @@ const verifyResult = ref(true) // 驗證結果
  */
 const verifyField = async (callback = () => {}, value) => {
   try {
-    verifyResult.value = await callback(value)
+    verifyResult.status = await callback(value)
+    verifyResult.errorMessage = ''
     return true
   } catch (err) {
     console.error(err)
-    verifyResult.value = false
+    verifyResult.status = false
+    verifyResult.errorMessage = err.message
     return false
   }
 }
 
 // 驗證錯誤時加上class
 const formItemClass = computed(() => {
-  return verifyResult.value ? '' : 'form-item--error'
+  return verifyResult.status ? '' : 'form-item--error'
 })
 </script>
 <template>
   <div :class="[formItemClass]">
     <slot></slot>
+    <div
+      v-if="!verifyResult.status"
+      class="font-size-3 color-red-dark pl-4 py-1"
+    >
+      {{ verifyResult.errorMessage }}
+    </div>
   </div>
 </template>

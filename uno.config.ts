@@ -35,6 +35,7 @@ export default defineConfig({
       'secondary-200': '#E7D8C9',
 
       red: '#f59898',
+      'red-dark': '#e77575',
     },
   },
   presets: [
