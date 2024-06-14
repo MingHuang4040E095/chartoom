@@ -1,6 +1,10 @@
 <script setup>
-import { defineEmits, defineModel, inject, ref } from 'vue'
+import { defineEmits, defineModel, ref } from 'vue'
 import IconCancel from '../Icon/IconCancel.vue'
+
+// -- hooks --
+import { formHook } from '@/hooks/form.js'
+
 const props = defineProps({
   // 輸入框類型
   type: {
@@ -19,24 +23,10 @@ const emit = defineEmits([
   'focus', // 聚焦
   'blur', // 失焦
 ])
-// -------------- 表單驗證區塊 --------------
-const formItemFields = inject('formFields', {})
-const fieldKey = inject('fieldKey', '')
 
-if (formItemFields && fieldKey) {
-  formItemFields[fieldKey].value = inputValue // 當前欄位的值
-}
-
-/**
- * 觸發FormItem組件的驗證
- * @param {[String]} type 觸發時機 blur:失焦 focus:聚焦 change:值改變
- * @param {[Any]} value 欄位的值
- */
-const triggerCallback = async (type, value) => {
-  if (!formItemFields[fieldKey]) return
-  // 觸發驗證
-  formItemFields[fieldKey].triggerCallback(type, value)
-}
+const {
+  triggerCallback, // 觸發FormItem組件的驗證
+} = formHook(inputValue)
 // -----------------------------------------
 
 const iconVisible = ref(false) // icon是否顯示  true:顯示 false:隱藏
