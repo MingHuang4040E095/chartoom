@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps, onMounted, provide, reactive } from 'vue'
+import { defineProps, provide, reactive } from 'vue'
 
 const props = defineProps({
   // 要驗證的表單資料
@@ -36,23 +36,18 @@ provide('formFields', formItemFields)
 // 提供驗證規則給子層使用
 provide('rules', props.rules)
 
-// 驗證表單
-const verify = () => {
-  const properties = Object.getOwnPropertySymbols(formItemFields)
-  // 屬性跑回圈取值
-  properties.forEach((property) => {
-    console.log('property:', property)
-    console.log('value:', formItemFields[property])
-  })
-}
-
-onMounted(() => {})
+// // 驗證表單
+// const verify = () => {
+//   const properties = Object.getOwnPropertySymbols(formItemFields)
+//   // 屬性跑回圈取值
+//   properties.forEach((property) => {
+//     console.log('property:', property)
+//     console.log('value:', formItemFields[property])
+//   })
+// }
 </script>
 <template>
   <form v-bind="$attrs">
     <slot></slot>
-
-    <div>{{ formItemFields }}</div>
-    <button @click.prevent="verify">click</button>
   </form>
 </template>
