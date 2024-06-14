@@ -1,5 +1,5 @@
 <script setup>
-import { computed, defineProps, inject, provide } from 'vue'
+import { computed, defineProps, inject, provide, ref } from 'vue'
 
 const props = defineProps({
   // 欄位名稱
@@ -31,7 +31,10 @@ const currentFieldRules = computed(() => {
 
   if (!('validator' in rule)) {
     // 沒有設定自訂驗證，就自動添加
-    rule.validator = verifyDefault
+    rule.validator = (value) => {
+      if (!value) throw new Error('不得為空')
+      return true
+    }
   }
 
   return rule
@@ -41,46 +44,44 @@ const currentFieldRules = computed(() => {
 const setCurrentField = () => {
   formFields[fieldKey] = {
     value: '',
-    triggerCallback: (type = '', value = '') => {
+    triggerCallback: async (type = '', value = '') => {
       // return {}
       const trigger = currentFieldRules.value.trigger
       if (trigger.includes(type)) {
         // 如果有符合觸發時機，就執行驗證
-        console.log('驗證')
+        console.log('驗證', value)
+        await verifyField(currentFieldRules.value.validator, value)
       }
     },
   }
 }
 setCurrentField()
 
+const verifyResult = ref(true) // 驗證結果
+
 /**
- * 預設驗證(只判斷是否有值)
- * @param {[Any]} value 欄位的值
- * @return {[Boolean]} true:驗證成功  false:驗證失敗
+ * 驗證欄位
+ * @param {[Function]} callback  自定義驗證方法
+ * @param {[Any]} value 欄位值
  */
-const verifyDefault = (value, callback = () => {}) => {
+const verifyField = async (callback = () => {}, value) => {
   try {
-    if (value) callback(new Error('不得為空'))
-    return !!value
+    verifyResult.value = await callback(value)
+    return true
   } catch (err) {
+    console.error(err)
+    verifyResult.value = false
     return false
   }
 }
 
-// 欄位狀態
-const fieldStatus = computed(() => {
-  const fieldValue = formFields[fieldKey]
-  return !!fieldValue
-})
-
 // 驗證錯誤時加上class
-const formItemError = computed(() => {
-  return fieldStatus.value ? '' : 'form-item--error'
+const formItemClass = computed(() => {
+  return verifyResult.value ? '' : 'form-item--error'
 })
 </script>
 <template>
-  <div :class="[formItemError]">
-    <div>{{ fieldStatus }}</div>
+  <div :class="[formItemClass]">
     <slot></slot>
   </div>
 </template>

@@ -69,7 +69,7 @@ const handleBlur = async (e) => {
       :type="props.type"
       v-model="inputValue"
       v-bind="$attrs"
-      @change="handleChange"
+      @input="handleChange"
       @focus="handleFocus"
       @blur="handleBlur"
     />
