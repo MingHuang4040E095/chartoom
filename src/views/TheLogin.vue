@@ -2,6 +2,7 @@
 import { reactive } from 'vue'
 // 登入頁
 import ButtonBasic from '@/components/Button/ButtonBasic.vue' // 基礎按鈕樣式
+import ButtonLink from '@/components/Button/ButtonLink.vue' // 連結按鈕樣式
 import CardBasic from '@/components/Card/CardBasic.vue' // 基礎卡片樣式
 import FormContainer from '@/components/Form/FormContainer.vue' // 表單容器
 import FormItem from '@/components/Form/FormItem.vue' // 表單欄位
@@ -16,6 +17,10 @@ const formRules = {
   email: {
     message: '請輸入帳號',
     trigger: ['blur', 'change'],
+    validator: (value) => {
+      if (value === 'aaa') return true
+      throw new Error('帳號錯誤')
+    },
   },
   password: {
     message: '請輸入密碼',
@@ -31,38 +36,20 @@ const formRules = {
       <h1 class="text-primary-200 text-center">登入</h1>
       <div>
         <FormContainer :data="form" :rules="formRules">
-          <FormItem filedName="email">
-            <InputBasic v-model="form.email" placeholder="" />
+          <FormItem label="帳號(email)" filedName="email">
+            <InputBasic v-model="form.email" placeholder="example@gmail.com" />
           </FormItem>
-          <FormItem filedName="email">
-            <InputBasic v-model="form.password" placeholder="" />
+          <FormItem label="密碼" filedName="password">
+            <div class="mb-2">
+              <InputBasic
+                v-model="form.password"
+                id="password"
+                type="password"
+              />
+            </div>
+            <ButtonLink>忘記密碼?</ButtonLink>
           </FormItem>
         </FormContainer>
-        <!-- <div class="form-item">
-          <label
-            class="block font-size-6 font-bold text-primary-100 mb-2"
-            for="email"
-            >帳號(email)</label
-          >
-          <div>
-            <InputBasic
-              v-model="form.email"
-              id="email"
-              placeholder="example@gmail.com"
-            />
-          </div>
-        </div>
-        <div class="form-item">
-          <label
-            class="block font-size-6 font-bold text-primary-100 mb-2"
-            for="password"
-            >密碼</label
-          >
-          <div class="mb-2">
-            <InputBasic v-model="form.password" id="password" type="password" />
-          </div>
-          <ButtonLink>忘記密碼?</ButtonLink>
-        </div> -->
         <div class="form-item text-right">
           <ButtonBasic class="font-bold" type="round">登入</ButtonBasic>
         </div>
