@@ -2,10 +2,16 @@
 import { computed, defineProps, inject, provide, reactive } from 'vue'
 
 const props = defineProps({
+  // 標籤
+  label: {
+    type: String,
+    default: '',
+  },
   // 欄位名稱
   filedName: {
     type: String,
     required: true,
+    default: '',
   },
 })
 
@@ -86,13 +92,25 @@ const formItemClass = computed(() => {
 })
 </script>
 <template>
-  <div :class="[formItemClass]">
-    <slot></slot>
-    <div
-      v-if="!verifyResult.status"
-      class="font-size-3 color-red-dark pl-4 py-1"
+  <div class="form-item" :class="[formItemClass]">
+    <label
+      class="block font-size-6 font-bold text-primary-100 mb-2"
+      for="email"
+      >{{ props.label }}</label
     >
-      {{ verifyResult.errorMessage }}
+    <div>
+      <slot></slot>
+      <div
+        v-if="!verifyResult.status"
+        class="font-size-3 color-red-dark pl-4 py-1"
+      >
+        {{ verifyResult.errorMessage }}
+      </div>
     </div>
   </div>
 </template>
+<style lang="scss" scoped>
+.form-item + .form-item {
+  @apply mt-4;
+}
+</style>
