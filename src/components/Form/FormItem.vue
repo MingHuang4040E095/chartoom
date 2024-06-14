@@ -7,17 +7,10 @@ const props = defineProps({
     type: String,
     required: true,
   },
-  // 觸發時機
-  trigger: {
-    type: Array,
-    default: () => {
-      return ['blur', 'focus', 'change'] // blur:失焦 focus:聚焦 change:值改變
-    },
-  },
 })
 
-// 儲存底下的formItem欄位
-const formItemFields = inject('formFields')
+// 儲存form底下的欄位
+const formFields = inject('formFields')
 const fieldKey = Symbol('fieldKey') // 欄位key (使用Symbol當唯一值)
 provide('fieldKey', fieldKey)
 
@@ -28,27 +21,55 @@ const rules = inject('rules')
 const currentFieldRules = computed(() => {
   // 預設驗證規則
   const ruleDefault = {
-    message: '不得為空',
-    trigger: props.trigger,
-    validator: verifyDefault(formItemFields[fieldKey]),
+    message: '不得為空', // 錯誤訊息
+    trigger: ['blur', 'change'], // 觸發時機 blur:失焦 focus:聚焦 change:值改變
+  }
+  // 沒有設定驗證規則時使用預設驗證
+  const rule = rules[props.filedName]
+    ? { ...rules[props.filedName] }
+    : ruleDefault
+
+  if (!('validator' in rule)) {
+    // 沒有設定自訂驗證，就自動添加
+    rule.validator = verifyDefault
   }
 
-  // 沒有設定驗證規則時使用預設驗證
-  return rules[props.fieldKey] || ruleDefault
+  return rule
 })
+
+// 設定當前欄位
+const setCurrentField = () => {
+  formFields[fieldKey] = {
+    value: '',
+    triggerCallback: (type = '', value = '') => {
+      // return {}
+      const trigger = currentFieldRules.value.trigger
+      if (trigger.includes(type)) {
+        // 如果有符合觸發時機，就執行驗證
+        console.log('驗證')
+      }
+    },
+  }
+}
+setCurrentField()
 
 /**
  * 預設驗證(只判斷是否有值)
  * @param {[Any]} value 欄位的值
  * @return {[Boolean]} true:驗證成功  false:驗證失敗
  */
-const verifyDefault = (value) => {
-  return !!value
+const verifyDefault = (value, callback = () => {}) => {
+  try {
+    if (value) callback(new Error('不得為空'))
+    return !!value
+  } catch (err) {
+    return false
+  }
 }
 
 // 欄位狀態
 const fieldStatus = computed(() => {
-  const fieldValue = formItemFields[fieldKey]
+  const fieldValue = formFields[fieldKey]
   return !!fieldValue
 })
 

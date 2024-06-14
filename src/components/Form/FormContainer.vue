@@ -24,7 +24,14 @@ const props = defineProps({
 })
 
 // 儲存底下的formItem欄位
-const formItemFields = reactive({})
+const formItemFields = reactive({
+  // 格式如下
+  // Symbol('fieldKey'): {
+  //   value: '',
+  //   callback(){
+  //   }
+  // },
+})
 provide('formFields', formItemFields)
 // 提供驗證規則給子層使用
 provide('rules', props.rules)

@@ -11,6 +11,17 @@ const form = reactive({
   email: '', // 帳號(信箱)
   password: '', // 密碼
 })
+
+const formRules = {
+  email: {
+    message: '請輸入帳號',
+    trigger: ['blur', 'change'],
+  },
+  password: {
+    message: '請輸入密碼',
+    trigger: ['blur', 'change'],
+  },
+}
 </script>
 <template>
   <section
@@ -19,7 +30,7 @@ const form = reactive({
     <CardBasic class="w-full px-8 py-2">
       <h1 class="text-primary-200 text-center">登入</h1>
       <div>
-        <FormContainer>
+        <FormContainer :data="form" :rules="formRules">
           <FormItem filedName="email">
             <InputBasic v-model="form.email" placeholder="" />
           </FormItem>

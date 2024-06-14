@@ -15,15 +15,30 @@ const inputValue = defineModel({
 })
 
 const emit = defineEmits([
+  'change', // 值改變
   'focus', // 聚焦
   'blur', // 失焦
 ])
+// -------------- 表單驗證區塊 --------------
+const formItemFields = inject('formFields')
+const fieldKey = inject('fieldKey')
+
+if (formItemFields && fieldKey) {
+  formItemFields[fieldKey].value = inputValue // 當前欄位的值
+}
+// -----------------------------------------
 
 const iconVisible = ref(false) // icon是否顯示  true:顯示 false:隱藏
 // 清除input的值
 const clearInputValue = () => {
   inputValue.value = ''
   iconVisible.value = false // icon隱藏
+}
+
+// 處理值改變
+const handleChange = () => {
+  emit('change', inputValue.value)
+  formItemFields[fieldKey].triggerCallback('change', inputValue.value)
 }
 
 /**
@@ -45,15 +60,6 @@ const handleBlur = async (e) => {
     iconVisible.value = false // icon隱藏
   }, 200)
 }
-
-// -------------- 表單驗證區塊 --------------
-const formItemFields = inject('formFields')
-const fieldKey = inject('fieldKey')
-if (formItemFields && fieldKey) {
-  console.log(formItemFields)
-  console.log(fieldKey)
-  formItemFields[fieldKey] = inputValue // 當前欄位的值
-}
 </script>
 <template>
   <div class="input-basic relative">
@@ -63,6 +69,7 @@ if (formItemFields && fieldKey) {
       :type="props.type"
       v-model="inputValue"
       v-bind="$attrs"
+      @change="handleChange"
       @focus="handleFocus"
       @blur="handleBlur"
     />
