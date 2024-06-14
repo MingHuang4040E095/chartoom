@@ -10,12 +10,12 @@ const props = defineProps({
 })
 
 // 儲存form底下的欄位
-const formFields = inject('formFields')
+const formFields = inject('formFields', {})
 const fieldKey = Symbol('fieldKey') // 欄位key (使用Symbol當唯一值)
 provide('fieldKey', fieldKey)
 
 // 驗證規則
-const rules = inject('rules')
+const rules = inject('rules', {})
 
 // 當前欄位的驗證規則
 const currentFieldRules = computed(() => {
@@ -49,7 +49,6 @@ const setCurrentField = () => {
       const trigger = currentFieldRules.value.trigger
       if (trigger.includes(type)) {
         // 如果有符合觸發時機，就執行驗證
-        console.log('驗證', value)
         await verifyField(currentFieldRules.value.validator, value)
       }
     },
@@ -74,7 +73,7 @@ const verifyField = async (callback = () => {}, value) => {
     verifyResult.errorMessage = ''
     return true
   } catch (err) {
-    console.error(err)
+    console.warn(err)
     verifyResult.status = false
     verifyResult.errorMessage = err.message
     return false
