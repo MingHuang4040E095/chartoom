@@ -1,11 +1,6 @@
 <script setup>
 import { defineProps, onMounted, provide, reactive } from 'vue'
 
-// 儲存底下的formItem欄位
-const formItemFields = reactive({})
-
-provide('formFields', formItemFields)
-
 const props = defineProps({
   // 要驗證的表單資料
   data: {
@@ -19,18 +14,20 @@ const props = defineProps({
     type: Object,
     default: () => {
       return {
-        // '欄位名稱': [
-        //   {
-        //     required: true,
+        // '欄位名稱': {
         //     message: '請輸入欄位名稱',
-        //     trigger: 'blur',
         //     trigger: ['blur', 'change'],
-        //   }
-        // ]
+        //  }
       }
     },
   },
 })
+
+// 儲存底下的formItem欄位
+const formItemFields = reactive({})
+provide('formFields', formItemFields)
+// 提供驗證規則給子層使用
+provide('rules', props.rules)
 
 // 驗證表單
 const verify = () => {
