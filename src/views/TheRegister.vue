@@ -1,6 +1,7 @@
 <script setup>
+// 註冊頁
 import { reactive } from 'vue'
-// 登入頁
+// -- 組件 --
 import ButtonBasic from '@/components/Button/ButtonBasic.vue' // 基礎按鈕樣式
 import CardBasic from '@/components/Card/CardBasic.vue' // 基礎卡片樣式
 import FormContainer from '@/components/Form/FormContainer.vue' // 表單容器
@@ -35,7 +36,7 @@ const formRules = {
   <section
     class="register-block flex justify-center items-center px-4 py-8 md:px-8 md-py-16"
   >
-    <CardBasic class="w-full px-8 py-2">
+    <CardBasic class="w-full px-8 py-4">
       <h1 class="text-primary-200 text-center">註冊</h1>
       <FormContainer :data="form" :rules="formRules">
         <FormItem label="姓名" filedName="name">
@@ -46,6 +47,12 @@ const formRules = {
         </FormItem>
         <FormItem label="密碼" filedName="password">
           <InputBasic v-model="form.password" type="password" />
+        </FormItem>
+        <FormItem label="確認密碼" filedName="confirmPassword">
+          <InputBasic v-model="form.confirmPassword" type="password" />
+        </FormItem>
+        <FormItem label="確認密碼" filedName="confirmPassword">
+          <InputBasic v-model="form.confirmPassword" type="password" />
         </FormItem>
         <FormItem label="確認密碼" filedName="confirmPassword">
           <InputBasic v-model="form.confirmPassword" type="password" />

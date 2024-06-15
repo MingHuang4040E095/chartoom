@@ -1,6 +1,7 @@
 <script setup>
-import { reactive, ref } from 'vue'
 // 登入頁
+import { reactive, ref } from 'vue'
+// -- 組件 --
 import ButtonBasic from '@/components/Button/ButtonBasic.vue' // 基礎按鈕樣式
 import ButtonLink from '@/components/Button/ButtonLink.vue' // 連結按鈕樣式
 import CardBasic from '@/components/Card/CardBasic.vue' // 基礎卡片樣式
@@ -46,15 +47,11 @@ const login = async () => {
             <InputBasic v-model="form.email" placeholder="example@gmail.com" />
           </FormItem>
           <FormItem label="密碼" filedName="password">
-            <div class="mb-2">
-              <InputBasic
-                v-model="form.password"
-                id="password"
-                type="password"
-              />
-            </div>
-            <ButtonLink>忘記密碼?</ButtonLink>
+            <InputBasic v-model="form.password" id="password" type="password" />
           </FormItem>
+          <div class="mt-2">
+            <ButtonLink>忘記密碼?</ButtonLink>
+          </div>
         </FormContainer>
         <div class="form-item text-right">
           <ButtonBasic class="font-bold" type="round" @click="login"
@@ -73,9 +70,5 @@ const login = async () => {
     max-width: 500px;
     aspect-ratio: 4 / 5;
   }
-}
-
-.form-item + .form-item {
-  @apply mt-4;
 }
 </style>
