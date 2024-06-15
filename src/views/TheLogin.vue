@@ -1,5 +1,5 @@
 <script setup>
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 // 登入頁
 import ButtonBasic from '@/components/Button/ButtonBasic.vue' // 基礎按鈕樣式
 import ButtonLink from '@/components/Button/ButtonLink.vue' // 連結按鈕樣式
@@ -7,12 +7,12 @@ import CardBasic from '@/components/Card/CardBasic.vue' // 基礎卡片樣式
 import FormContainer from '@/components/Form/FormContainer.vue' // 表單容器
 import FormItem from '@/components/Form/FormItem.vue' // 表單欄位
 import InputBasic from '@/components/Form/InputBasic.vue' // 基礎輸入框樣式
-
+// 表單
 const form = reactive({
   email: '', // 帳號(信箱)
   password: '', // 密碼
 })
-
+// 表單驗證規則
 const formRules = {
   email: {
     message: '請輸入帳號',
@@ -27,15 +27,21 @@ const formRules = {
     trigger: ['blur', 'change'],
   },
 }
+
+const formContainerRef = ref(null)
+
+const login = async () => {
+  await formContainerRef.value.verifyAllFields()
+}
 </script>
 <template>
   <section
-    class="login flex justify-center items-center px-4 py-8 md:px-8 md-py-16"
+    class="login-block flex justify-center items-center px-4 py-8 md:px-8 md-py-16"
   >
     <CardBasic class="w-full px-8 py-2">
       <h1 class="text-primary-200 text-center">登入</h1>
       <div>
-        <FormContainer :data="form" :rules="formRules">
+        <FormContainer ref="formContainerRef" :data="form" :rules="formRules">
           <FormItem label="帳號(email)" filedName="email">
             <InputBasic v-model="form.email" placeholder="example@gmail.com" />
           </FormItem>
@@ -51,14 +57,16 @@ const formRules = {
           </FormItem>
         </FormContainer>
         <div class="form-item text-right">
-          <ButtonBasic class="font-bold" type="round">登入</ButtonBasic>
+          <ButtonBasic class="font-bold" type="round" @click="login"
+            >登入</ButtonBasic
+          >
         </div>
       </div>
     </CardBasic>
   </section>
 </template>
 <style lang="scss" scoped>
-.login {
+.login-block {
   height: 100vh;
 
   > div {
