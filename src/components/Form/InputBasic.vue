@@ -38,7 +38,6 @@ const clearInputValue = () => {
 
 // 處理值改變
 const handleChange = async () => {
-  console.log('change!')
   emit('change', inputValue.value)
   await triggerCallback('change', inputValue.value)
 }
@@ -58,9 +57,7 @@ const handleFocus = async (e) => {
  * @param {[MouseEvent]} e 預設事件
  */
 const handleBlur = async (e) => {
-  console.log('blur!')
   emit('blur', e)
-  console.log(inputValue.value)
   await triggerCallback('blur', inputValue.value)
 
   iconVisible.value = false // icon隱藏
