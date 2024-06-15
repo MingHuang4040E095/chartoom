@@ -1,5 +1,5 @@
 <script setup>
-import { defineEmits, defineModel, ref } from 'vue'
+import { defineEmits, defineModel, ref, watch } from 'vue'
 import IconCancel from '../Icon/IconCancel.vue'
 
 // -- hooks --
@@ -39,8 +39,15 @@ const clearInputValue = () => {
 // 處理值改變
 const handleChange = async () => {
   emit('change', inputValue.value)
-  await triggerCallback('change', inputValue.value)
 }
+// 當值直接改變時也需要觸發驗證
+watch(
+  () => inputValue.value,
+  async (newValue) => {
+    console.log('watch!')
+    await triggerCallback('change', newValue)
+  },
+)
 
 /**
  * 處理焦點
