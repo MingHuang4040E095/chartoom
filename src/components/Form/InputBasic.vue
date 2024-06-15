@@ -38,6 +38,7 @@ const clearInputValue = () => {
 
 // 處理值改變
 const handleChange = async () => {
+  console.log('change!')
   emit('change', inputValue.value)
   await triggerCallback('change', inputValue.value)
 }
@@ -57,12 +58,12 @@ const handleFocus = async (e) => {
  * @param {[MouseEvent]} e 預設事件
  */
 const handleBlur = async (e) => {
+  console.log('blur!')
   emit('blur', e)
+  console.log(inputValue.value)
   await triggerCallback('blur', inputValue.value)
 
-  setTimeout(() => {
-    iconVisible.value = false // icon隱藏
-  }, 200)
+  iconVisible.value = false // icon隱藏
 }
 </script>
 <template>
@@ -80,7 +81,7 @@ const handleBlur = async (e) => {
     <IconCancel
       v-show="iconVisible"
       class="absolute top-1/2 right-3 -transform-translate-y-1/2 text-primary-100 cursor-pointer"
-      @click.stop="clearInputValue"
+      @mousedown.stop="clearInputValue"
     />
   </div>
 </template>
