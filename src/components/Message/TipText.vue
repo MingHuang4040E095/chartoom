@@ -1,6 +1,6 @@
 <script setup>
 // 文字提示
-import { defineProps } from 'vue'
+import { computed, defineProps } from 'vue'
 
 const props = defineProps({
   // 是否顯示 true:顯示 false:隱藏
@@ -13,6 +13,18 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  // 顯示位置
+  position: {
+    type: String,
+    default: 'center',
+    validator: (value) => {
+      return ['left', 'center', 'right'].includes(value)
+    },
+  },
+})
+
+const className = computed(() => {
+  return `tip-text-label--${props.position}`
 })
 </script>
 <template>
@@ -22,6 +34,7 @@ const props = defineProps({
       <div
         v-if="props.visible"
         class="tip-text-label"
+        :class="[className]"
         :data-text="props.text"
       ></div>
     </Transition>
@@ -31,24 +44,57 @@ const props = defineProps({
 .tip-text-label {
   position: absolute;
   top: 100%;
-  left: 50%;
-  transform: translate(-50%, 2px);
+  transform: translate(0, 2px);
   transition: all 1s;
-}
-.tip-text-label::before {
-  content: '';
-  display: inline-block;
-  position: absolute;
-  transform: translateX(-50%) rotate(45deg);
-  width: 10px;
-  height: 10px;
-  @apply z-1 bg-red rounded-2px;
-}
-.tip-text-label::after {
-  content: attr(data-text);
-  width: max-content;
-  min-height: 26px;
-  @apply absolute top-full transform-translate-y-1 -transform-translate-x-1/2 rounded-1 px-2 py-1 font-size-3 bg-red color-white z-2;
+  width: 100%;
+
+  &::before {
+    content: '';
+    display: inline-block;
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    @apply z-1 bg-red rounded-2px;
+  }
+  &::after {
+    content: attr(data-text);
+    width: max-content;
+    min-height: 26px;
+    // right: 0;
+    @apply absolute top-full rounded-1 px-2 py-1 font-size-3 bg-red color-white z-2;
+  }
+  // 靠左
+  &.tip-text-label--left {
+    left: 0%;
+    &::before {
+      transform: translateX(100%) rotate(45deg);
+    }
+    &::after {
+      transform: translate(0%, 2px);
+    }
+  }
+  // 置中
+  &.tip-text-label--center {
+    left: 50%;
+    &::before {
+      transform: translateX(-50%) rotate(45deg);
+    }
+    &::after {
+      transform: translate(-50%, 2px);
+    }
+  }
+  // 靠右(預設)
+  &.tip-text-label--right {
+    left: 0;
+    &::before {
+      transform: translateX(-100%) rotate(45deg);
+      right: 0;
+    }
+    &::after {
+      right: 0;
+      transform: translate(0%, 2px);
+    }
+  }
 }
 
 // 動畫
