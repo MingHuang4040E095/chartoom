@@ -49,11 +49,14 @@ const currentFieldRules = computed(() => {
 // 設定當前欄位
 const setCurrentField = () => {
   formFields[fieldKey] = {
-    value: '',
+    value: '', // 欄位值
+    /**
+     * 觸發驗證
+     * @param {[String]} type 觸發時機 blur:失焦 focus:聚焦 change:值改變 direct:直接驗證
+     */
     triggerCallback: async (type = '', value = '') => {
-      // return {}
       const trigger = currentFieldRules.value.trigger
-      if (trigger.includes(type)) {
+      if (trigger.includes(type) || type === 'direct') {
         // 如果有符合觸發時機，就執行驗證
         await verifyField(currentFieldRules.value.validator, value)
       }
