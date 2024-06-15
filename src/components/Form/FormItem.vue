@@ -1,6 +1,7 @@
 <script setup>
 import { computed, defineProps, inject, provide, reactive } from 'vue'
-
+// -- 組件 --
+import TipText from '@/components/Message/TipText.vue' // 文字提示
 const props = defineProps({
   // 標籤
   label: {
@@ -97,23 +98,21 @@ const formItemClass = computed(() => {
 <template>
   <div class="form-item" :class="[formItemClass]">
     <label
+      v-if="props.label"
       class="block font-size-6 font-bold text-primary-100 mb-2"
       for="email"
       >{{ props.label }}</label
     >
-    <div>
-      <slot></slot>
-      <div
-        v-if="!verifyResult.status"
-        class="font-size-3 color-red-dark pl-4 py-1"
-      >
-        {{ verifyResult.errorMessage }}
+    <!-- 文字提示 -->
+    <TipText :visible="!verifyResult.status" :text="verifyResult.errorMessage">
+      <div>
+        <slot></slot>
       </div>
-    </div>
+    </TipText>
   </div>
 </template>
 <style lang="scss" scoped>
 .form-item + .form-item {
-  @apply mt-4;
+  @apply mt-5;
 }
 </style>
