@@ -4,9 +4,11 @@ import { reactive } from 'vue'
 // -- 組件 --
 import ButtonBasic from '@/components/Button/ButtonBasic.vue' // 基礎按鈕樣式
 import CardBasic from '@/components/Card/CardBasic.vue' // 基礎卡片樣式
+import DividingLine from '@/components/DividingLine.vue' // 分隔線
 import FormContainer from '@/components/Form/FormContainer.vue' // 表單容器
 import FormItem from '@/components/Form/FormItem.vue' // 表單欄位
 import InputBasic from '@/components/Form/InputBasic.vue' // 基礎輸入框樣式
+
 // 表單
 const form = reactive({
   email: '', // 帳號(信箱)
@@ -61,6 +63,9 @@ const formRules = {
       <div class="mt-4 text-right">
         <ButtonBasic class="font-bold" type="round">註冊</ButtonBasic>
       </div>
+      <DividingLine>
+        <span>社群登入</span>
+      </DividingLine>
     </CardBasic>
   </section>
 </template>
