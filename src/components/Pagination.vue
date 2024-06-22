@@ -144,8 +144,6 @@ const iconArrowDisplay = computed(() => {
 })
 </script>
 <template>
-  <pre>centerDisplayPages{{ centerDisplayPages }}</pre>
-  <pre>noArrowPages{{ noArrowPages }}</pre>
   <div class="pagination">
     <!-- 第一頁 -->
     <button
