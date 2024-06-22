@@ -1,6 +1,17 @@
 <script setup>
 // 首頁
-import CardRoom from '@/components/Card/CardRoom.vue' // 房間卡片
+import CardRoom from '@/components/Card/CardRoom.vue'
+import Pagination from '@/components/Pagination.vue'
+import { reactive, ref } from 'vue'
+
+const cardRoomData = ref([])
+
+// 分頁相關資料
+const paginationData = reactive({
+  currentPage: 1, // 當前頁數
+  perPage: 16, // 一頁顯示幾筆
+  total: 33, // 總筆數
+})
 </script>
 <template>
   <!-- 側邊欄 -->
@@ -18,6 +29,11 @@ import CardRoom from '@/components/Card/CardRoom.vue' // 房間卡片
   >
     <CardRoom v-for="i in 16" :key="i" />
   </section>
+  <Pagination
+    v-model="paginationData.currentPage"
+    :total="paginationData.total"
+    :perPage="paginationData.perPage"
+  />
 </template>
 <style lang="scss">
 // .the-header{
