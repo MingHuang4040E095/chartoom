@@ -1,6 +1,6 @@
 <script setup>
 // 分頁
-import { computed, defineModel, defineProps } from 'vue'
+import { computed, defineEmits, defineModel, defineProps } from 'vue'
 
 const props = defineProps({
   // 總筆數
@@ -14,6 +14,9 @@ const props = defineProps({
     default: 1,
   },
 })
+const emit = defineEmits([
+  'changePage', // 切換頁數
+])
 // 總頁數
 const totalPages = computed(() => {
   // 無條件進位
@@ -142,6 +145,16 @@ const iconArrowDisplay = computed(() => {
       !isLastPage,
   }
 })
+
+/**
+ * 切換頁數
+ * @param {[Number]} page
+ */
+const changePage = (page = 1) => {
+  if (currentPage.value === page) return
+  currentPage.value = page
+  emit('changePage', page)
+}
 </script>
 <template>
   <div class="pagination">
@@ -149,14 +162,14 @@ const iconArrowDisplay = computed(() => {
     <button
       class="pagination__btn"
       :class="[currentPage === 1 ? 'active' : null]"
-      @click.stop="currentPage = 1"
+      @click.stop="changePage(1)"
     >
       1
     </button>
     <button
       v-show="iconArrowDisplay.previous"
       class="pagination__btn"
-      @click.stop="currentPage = currentPage - 1"
+      @click.stop="changePage(currentPage - 1)"
     >
       <div class="i-ic:round-arrow-back-ios w-1em h-1em"></div>
     </button>
@@ -166,14 +179,14 @@ const iconArrowDisplay = computed(() => {
       v-for="page in centerDisplayPages"
       :key="page"
       :class="[currentPage === page ? 'active' : null]"
-      @click.stop="currentPage = page"
+      @click.stop="changePage(page)"
     >
       {{ page }}
     </button>
     <button
       v-show="iconArrowDisplay.next"
       class="pagination__btn"
-      @click.stop="currentPage = currentPage + 1"
+      @click.stop="changePage(currentPage + 1)"
     >
       <div class="i-ic:round-arrow-forward-ios w-1em h-1em"></div>
     </button>
@@ -182,7 +195,7 @@ const iconArrowDisplay = computed(() => {
       v-if="totalPages > 1"
       class="pagination__btn"
       :class="[currentPage === totalPages ? 'active' : null]"
-      @click.stop="currentPage = totalPages"
+      @click.stop="changePage(totalPages)"
     >
       {{ totalPages }}
     </button>
