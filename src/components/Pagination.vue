@@ -6,12 +6,12 @@ const props = defineProps({
   // 總筆數
   total: {
     type: Number,
-    default: 11,
+    default: 0,
   },
   // 一頁顯示幾筆
   perPage: {
     type: Number,
-    default: 1,
+    default: 10,
   },
 })
 const emit = defineEmits([
@@ -139,10 +139,12 @@ const iconArrowDisplay = computed(() => {
   return {
     previous:
       !noArrowPages.value.left.pages.includes(currentPage.value) &&
-      !isFirstPage,
+      !isFirstPage &&
+      centerDisplayPages.value.length === displayMaxQuantity,
     next:
       !noArrowPages.value.right.pages.includes(currentPage.value) &&
-      !isLastPage,
+      !isLastPage &&
+      centerDisplayPages.value.length === displayMaxQuantity,
   }
 })
 
@@ -203,7 +205,7 @@ const changePage = (page = 1) => {
 </template>
 <style lang="scss" scoped>
 .pagination {
-  @apply flex justify-center items-center gap-1;
+  @apply flex justify-center items-center gap-1 my-6;
   > .pagination__btn {
     @apply w-auto border-none bg-transparent text-primary-100 font-size-5 cursor-pointer transition-all duration-300 ease-in-out rounded-full p-2 min-w-10 min-h-10 hover:underline;
   }
