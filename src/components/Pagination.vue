@@ -21,7 +21,7 @@ const totalPages = computed(() => {
 })
 // 當前頁數
 const currentPage = defineModel({
-  default: 5,
+  default: 1,
   type: [Number],
 })
 /**
@@ -121,7 +121,13 @@ const centerDisplayPages = computed(() => {
 <template>
   <div class="pagination">
     <!-- 第一頁 -->
-    <button class="pagination__btn">1</button>
+    <button
+      class="pagination__btn"
+      :class="[currentPage === 1 ? 'active' : null]"
+      @click.stop="currentPage = 1"
+    >
+      1
+    </button>
     <button
       v-show="!noArrowPages.left.pages.includes(currentPage)"
       class="pagination__btn"
@@ -133,6 +139,8 @@ const centerDisplayPages = computed(() => {
       class="pagination__btn"
       v-for="page in centerDisplayPages"
       :key="page"
+      :class="[currentPage === page ? 'active' : null]"
+      @click.stop="currentPage = page"
     >
       {{ page }}
     </button>
@@ -143,7 +151,11 @@ const centerDisplayPages = computed(() => {
       <div class="i-ic:round-arrow-forward-ios w-1em h-1em"></div>
     </button>
     <!-- 最後一頁 -->
-    <button class="pagination__btn">
+    <button
+      class="pagination__btn"
+      :class="[currentPage === totalPages ? 'active' : null]"
+      @click.stop="currentPage = totalPages"
+    >
       {{ totalPages }}
     </button>
   </div>
@@ -152,7 +164,10 @@ const centerDisplayPages = computed(() => {
 .pagination {
   @apply flex justify-center items-center gap-1;
   > .pagination__btn {
-    @apply w-auto border-none bg-transparent text-primary-100 font-size-6 cursor-pointer transition-all duration-300 ease-in-out rounded-full;
+    @apply w-auto border-none bg-transparent text-primary-100 font-size-5 cursor-pointer transition-all duration-300 ease-in-out rounded-full p-2 min-w-10 min-h-10 hover:underline;
+  }
+  > .pagination__btn.active {
+    @apply bg-primary-100 text-secondary-100;
   }
 }
 </style>
