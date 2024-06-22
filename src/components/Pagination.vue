@@ -114,11 +114,38 @@ const centerDisplayPages = computed(() => {
   }
   // 確保頁數不會超過總頁數
   return pages.filter((page) => {
-    return page < totalPages.value
+    return page < totalPages.value && page > 1
   })
+})
+
+// 箭頭icon是否顯示
+const iconArrowDisplay = computed(() => {
+  // 中間頁數的第一筆是否相鄰1
+  let isFirstPage = false
+  if (centerDisplayPages.value[0]) {
+    isFirstPage = centerDisplayPages.value[0] - 1 === 1
+  }
+
+  // 中間頁數的最後一筆是否相鄰最後一頁
+  let isLastPage = false
+  if (centerDisplayPages.value[centerDisplayPages.value.length - 1]) {
+    isLastPage =
+      centerDisplayPages.value[centerDisplayPages.value.length - 1] + 1 ===
+      totalPages.value
+  }
+  return {
+    previous:
+      !noArrowPages.value.left.pages.includes(currentPage.value) &&
+      !isFirstPage,
+    next:
+      !noArrowPages.value.right.pages.includes(currentPage.value) &&
+      !isLastPage,
+  }
 })
 </script>
 <template>
+  <pre>centerDisplayPages{{ centerDisplayPages }}</pre>
+  <pre>noArrowPages{{ noArrowPages }}</pre>
   <div class="pagination">
     <!-- 第一頁 -->
     <button
@@ -129,8 +156,9 @@ const centerDisplayPages = computed(() => {
       1
     </button>
     <button
-      v-show="!noArrowPages.left.pages.includes(currentPage)"
+      v-show="iconArrowDisplay.previous"
       class="pagination__btn"
+      @click.stop="currentPage = currentPage - 1"
     >
       <div class="i-ic:round-arrow-back-ios w-1em h-1em"></div>
     </button>
@@ -145,13 +173,15 @@ const centerDisplayPages = computed(() => {
       {{ page }}
     </button>
     <button
-      v-show="!noArrowPages.right.pages.includes(currentPage)"
+      v-show="iconArrowDisplay.next"
       class="pagination__btn"
+      @click.stop="currentPage = currentPage + 1"
     >
       <div class="i-ic:round-arrow-forward-ios w-1em h-1em"></div>
     </button>
     <!-- 最後一頁 -->
     <button
+      v-if="totalPages > 1"
       class="pagination__btn"
       :class="[currentPage === totalPages ? 'active' : null]"
       @click.stop="currentPage = totalPages"
