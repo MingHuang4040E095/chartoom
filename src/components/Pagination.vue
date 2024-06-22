@@ -1,11 +1,8 @@
 <script setup>
+// 分頁
 import { computed, defineModel, defineProps } from 'vue'
+
 const props = defineProps({
-  // // 當前頁數
-  // currentPage: {
-  //   type: Number,
-  //   default: 1,
-  // },
   // 總筆數
   total: {
     type: Number,
@@ -24,11 +21,9 @@ const totalPages = computed(() => {
 })
 // 當前頁數
 const currentPage = defineModel({
-  default: 1,
+  default: 5,
   type: [Number],
 })
-
-// 分頁
 /**
  * 規則 :
  * 扣掉頭尾頁數後，中間頁數只會顯示5頁
@@ -83,20 +78,44 @@ const noArrowPages = computed(() => {
     },
   }
   return {
-    left: noArrowPagesLeft.pages, // 左邊
-    right: noArrowPagesRight.pages, // 右邊
+    left: noArrowPagesLeft, // 左邊
+    right: noArrowPagesRight, // 右邊
   }
 })
 
 // 中間頁數(最多5筆)
 const centerDisplayPages = computed(() => {
-  // currentPage.value
-  const firstPage = 1 // 第一頁
-  const lastPage = totalPages.value // 最後一頁
-
-  // 扣掉第一頁跟最後一頁的數量後，剩幾頁
-  const otherPages = totalPages.value - 2 >= 0 ? totalPages.value - 2 : 0
-  return [1, 2, 3, 4, 5]
+  const range = Math.floor(displayMaxQuantity / 2) // 前後要各顯示幾頁 ex:最大顯示5頁，所以前後各顯示2頁
+  const noArrowPagesLeft = noArrowPages.value.left
+  const noArrowPagesRight = noArrowPages.value.right
+  const pages = []
+  if (noArrowPagesLeft.pages.includes(currentPage.value)) {
+    // 如果在左邊
+    for (let page = 1; page <= displayMaxQuantity; page++) {
+      pages.push(page + 1)
+    }
+  } else if (noArrowPagesRight.pages.includes(currentPage.value)) {
+    // 如果在右邊
+    for (
+      let page = totalPages.value;
+      page > totalPages.value - displayMaxQuantity;
+      page--
+    ) {
+      pages.push(page - 1)
+    }
+    pages.reverse()
+  } else {
+    // 如果在中間
+    const start = currentPage.value - range
+    const end = currentPage.value + range
+    for (let page = start; page <= end; page++) {
+      pages.push(page)
+    }
+  }
+  // 確保頁數不會超過總頁數
+  return pages.filter((page) => {
+    return page < totalPages.value
+  })
 })
 </script>
 <template>
@@ -104,17 +123,21 @@ const centerDisplayPages = computed(() => {
     <!-- 第一頁 -->
     <button class="pagination__btn">1</button>
     <button
-      v-show="!noArrowPages.left.includes(currentPage)"
+      v-show="!noArrowPages.left.pages.includes(currentPage)"
       class="pagination__btn"
     >
       <div class="i-ic:round-arrow-back-ios w-1em h-1em"></div>
     </button>
     <!-- 中間頁數(最多5筆) -->
-    <button class="pagination__btn" v-for="i in totalPages" :key="i">
-      {{ i }}
+    <button
+      class="pagination__btn"
+      v-for="page in centerDisplayPages"
+      :key="page"
+    >
+      {{ page }}
     </button>
     <button
-      v-show="!noArrowPages.right.includes(currentPage)"
+      v-show="!noArrowPages.right.pages.includes(currentPage)"
       class="pagination__btn"
     >
       <div class="i-ic:round-arrow-forward-ios w-1em h-1em"></div>
