@@ -30,6 +30,7 @@ export default defineConfig({
   theme: {
     colors: {
       'primary-100': '#cba596',
+      'primary-150': '#CCAA96',
       'primary-200': '#B2967D',
       'secondary-100': '#EEE4E1',
       'secondary-200': '#E7D8C9',
