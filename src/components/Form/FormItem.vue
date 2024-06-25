@@ -1,7 +1,7 @@
 <script setup>
 import { computed, defineProps, inject, provide, reactive } from 'vue'
 // -- 組件 --
-import TipText from '@/components/Message/TipText.vue' // 文字提示
+import TipText from '@/components/Feedback/TipText.vue' // 文字提示
 const props = defineProps({
   // 標籤
   label: {
