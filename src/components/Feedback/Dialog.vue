@@ -19,10 +19,16 @@ const props = defineProps({
   >
     <div
       v-if="modelValue"
-      class="dialog bg-white w-full max-w-xl h-lg rounded-2 z-2000"
+      class="dialog bg-white w-full max-w-xl h-lg rounded-2 z-2000 overflow-hidden"
     >
-      <div>{{ props.title }}</div>
-      <slot></slot>
+      <div
+        class="bg-secondary-200 px-6 py-4 font-size-6 text-primary-100 font-bold"
+      >
+        {{ props.title }}
+      </div>
+      <div class="px-6 py-4">
+        <slot></slot>
+      </div>
     </div>
   </div>
 </template>
