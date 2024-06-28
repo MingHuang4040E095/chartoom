@@ -1,5 +1,5 @@
 <script setup>
-import { defineModel, defineProps } from 'vue'
+import { defineModel, defineProps, ref } from 'vue'
 const modelValue = defineModel({
   default: true,
   type: Boolean,
@@ -12,13 +12,21 @@ const props = defineProps({
     default: '標題',
   },
 })
+
+const dialogRef = ref(null)
+const closeDialog = (e) => {
+  const isChild = dialogRef.value.contains(e.target)
+  if (!isChild) modelValue.value = false
+}
 </script>
 <template>
   <div
-    class="warp bg-#0000007a w-full h-full fixed top-0 left-0 flex justify-center items-center"
+    v-show="modelValue"
+    class="wrap bg-#0000007a w-full h-full fixed top-0 left-0 flex justify-center items-center"
+    @click="closeDialog"
   >
     <div
-      v-if="modelValue"
+      ref="dialogRef"
       class="dialog bg-white w-full max-w-xl h-lg rounded-2 z-2000 overflow-hidden"
     >
       <div
