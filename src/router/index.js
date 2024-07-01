@@ -18,6 +18,12 @@ const routes = [
     name: 'Register',
     component: () => import('@/views/TheRegister.vue'),
   },
+  {
+    // 聊天室
+    path: '/chatroom/:id',
+    name: 'Chatroom',
+    component: () => import('@/views/TheChatroom.vue'),
+  },
 ]
 
 const router = createRouter({

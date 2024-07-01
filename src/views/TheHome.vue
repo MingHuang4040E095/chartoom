@@ -1,6 +1,7 @@
 <script setup>
 // 首頁
 import CardRoom from '@/components/Card/CardRoom.vue'
+import Dialog from '@/components/Feedback/Dialog.vue'
 import Pagination from '@/components/Pagination.vue'
 import { reactive, ref } from 'vue'
 
@@ -29,6 +30,7 @@ const paginationData = reactive({
   >
     <CardRoom v-for="i in 16" :key="i" />
   </section>
+  <Dialog>123</Dialog>
   <Pagination
     v-model="paginationData.currentPage"
     :total="paginationData.total"

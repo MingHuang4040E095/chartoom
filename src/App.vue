@@ -33,7 +33,15 @@ const headerVisible = computed(() => {
   </body>
 </template>
 <style lang="scss">
+#app {
+  display: flex;
+  flex-direction: column;
+}
 body {
   background-color: #eee4e1;
+  height: calc(100vh - 68px);
+  > section {
+    height: 100%;
+  }
 }
 </style>
